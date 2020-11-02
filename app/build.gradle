@@ -17,6 +17,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -50,9 +57,26 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.ui:ui-tooling:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-beta01'
+
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+
+    // test
+    testImplementation 'androidx.test:core:1.3.0'
+    testImplementation 'androidx.test:core-ktx:1.3.0'
+    testImplementation 'org.robolectric:robolectric:4.5-alpha-1'
+
+    // AndroidJUnitRunner and JUnit Rules
+    testImplementation 'androidx.test:runner:1.3.0'
+    testImplementation 'androidx.test:rules:1.3.0'
+
+    // Assertions
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation 'androidx.test.ext:truth:1.3.0'
+    testImplementation "com.google.truth:truth:1.1"
+
 
     // facker for mock data
     implementation 'com.github.javafaker:javafaker:1.0.2'
