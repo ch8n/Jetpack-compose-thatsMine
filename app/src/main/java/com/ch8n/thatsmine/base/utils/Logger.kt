@@ -75,7 +75,7 @@ object ReleaseTree : Timber.Tree() {
  *  3. add gradle field to check debug/release status
  *  4. make logger and debug tools into seprate package
  */
-class AdvanceDebugTree : Timber.DebugTree() {
+class AdvanceDebugTree() : Timber.DebugTree() {
 
     private fun forceIncreasePriority(priority: Int): Int {
         return when (priority) {
@@ -94,6 +94,7 @@ class AdvanceDebugTree : Timber.DebugTree() {
             else -> priority
         }
         super.log(updatePriority, tag, message, error);
+
     }
 
     override fun createStackElementTag(element: StackTraceElement): String? {
