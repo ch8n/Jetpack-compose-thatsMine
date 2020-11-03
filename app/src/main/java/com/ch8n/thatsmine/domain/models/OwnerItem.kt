@@ -1,4 +1,4 @@
-package com.ch8n.thatsmine.data.local.models
+package com.ch8n.thatsmine.domain.models
 
 import androidx.compose.runtime.Immutable
 import com.github.javafaker.Faker

@@ -1,7 +1,7 @@
 package com.ch8n.thatsmine.data.local.datasource.memory
 
 import android.util.LruCache
-import com.ch8n.thatsmine.data.local.models.OwnerItem
+import com.ch8n.thatsmine.domain.models.OwnerItem
 
 interface MemoryDataStore {
     fun addOwnerItem(item: OwnerItem)
@@ -27,7 +27,7 @@ class FakeMemoryDataStoreImpl : MemoryDataStore {
     private val mockMemoryData = mutableListOf<OwnerItem>()
 
     override fun addOwnerItem(item: OwnerItem) {
-        mockMemoryData.add(item)
+        // not supported
     }
 
     override fun getOwnerItems(): List<OwnerItem> {

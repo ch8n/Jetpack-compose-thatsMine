@@ -1,7 +1,7 @@
-package com.ch8n.thatsmine.data.repository
+package com.ch8n.thatsmine.domain.repository
 
 import com.ch8n.thatsmine.data.local.datasource.memory.MemoryDataStore
-import com.ch8n.thatsmine.data.local.models.OwnerItem
+import com.ch8n.thatsmine.domain.models.OwnerItem
 
 interface OwnerItemRepository {
     fun addOwnerItem(item: OwnerItem)

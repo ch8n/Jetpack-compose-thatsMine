@@ -1,7 +1,7 @@
 package com.ch8n.thatsmine.data.local.datasource.memory
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.ch8n.thatsmine.data.local.models.OwnerItem
+import com.ch8n.thatsmine.domain.models.OwnerItem
 import com.google.common.truth.Truth
 import org.junit.Before
 import org.junit.Test

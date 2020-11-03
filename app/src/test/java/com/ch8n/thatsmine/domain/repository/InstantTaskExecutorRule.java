@@ -1,4 +1,4 @@
-package com.ch8n.thatsmine.data.repository;
+package com.ch8n.thatsmine.domain.repository;
 
 import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.arch.core.executor.TaskExecutor;

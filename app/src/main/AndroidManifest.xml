@@ -3,6 +3,7 @@
     package="com.ch8n.thatsmine">
 
     <application
+        android:name=".ThatsMineApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
