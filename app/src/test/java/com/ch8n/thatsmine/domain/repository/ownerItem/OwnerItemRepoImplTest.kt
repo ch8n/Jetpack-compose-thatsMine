@@ -1,8 +1,6 @@
 package com.ch8n.thatsmine.domain.repository.ownerItem
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.ch8n.thatsmine.data.local.datasource.memory.FakeMemoryDataStoreImpl
-import com.ch8n.thatsmine.data.local.datasource.memory.MemoryDataStore
 import com.ch8n.thatsmine.domain.models.OwnerItem
 import com.ch8n.thatsmine.domain.repository.OwnerItemRepoImpl
 import com.ch8n.thatsmine.domain.usecase.AddOwnedItemInMemory

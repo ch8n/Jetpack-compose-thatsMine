@@ -10,7 +10,7 @@ interface MemoryDataStore {
 
 class MemoryDataStoreImpl : MemoryDataStore {
 
-    val memoryDataStore = LruCache</*OwnerItemId*/String, OwnerItem>(5)
+    private val memoryDataStore = LruCache</*OwnerItemId*/String, OwnerItem>(5)
 
     override fun addOwnerItem(item: OwnerItem) {
         memoryDataStore.put(item.itemId, item)
@@ -18,24 +18,6 @@ class MemoryDataStoreImpl : MemoryDataStore {
 
     override fun getOwnerItems(): List<OwnerItem> {
         return memoryDataStore.snapshot().values.toList()
-    }
-
-}
-
-class FakeMemoryDataStoreImpl : MemoryDataStore {
-
-    private val mockMemoryData = mutableListOf<OwnerItem>()
-
-    override fun addOwnerItem(item: OwnerItem) {
-        // not supported
-    }
-
-    override fun getOwnerItems(): List<OwnerItem> {
-        mockMemoryData.clear()
-        repeat(5) {
-            mockMemoryData.add(OwnerItem.mock())
-        }
-        return mockMemoryData
     }
 
 }
