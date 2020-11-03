@@ -2,10 +2,12 @@ package com.ch8n.thatsmine.data.local.models
 
 import androidx.compose.runtime.Immutable
 import com.github.javafaker.Faker
+import java.util.*
 
 
 @Immutable
 data class OwnerItem(
+    val itemId: String,
     val itemName: String,
     val itemDescription: String,
     val ownedAt: Long,
@@ -19,6 +21,7 @@ data class OwnerItem(
     companion object {
 
         fun default() = OwnerItem(
+            itemId = UUID.randomUUID().toString(),
             itemName = "",
             itemDescription = "",
             ownedAt = 0,
@@ -32,8 +35,9 @@ data class OwnerItem(
 
         fun mock(): OwnerItem = Faker().let { faker ->
             OwnerItem(
+                itemId = UUID.randomUUID().toString(),
                 itemName = faker.commerce().productName(),
-                itemDescription = faker.commerce().material(),
+                itemDescription = faker.friends().quote(),
                 ownedAt = faker.date().birthday().time,
                 inventory = faker.number().randomDigit(),
                 expiresIn = faker.date().birthday().time,
