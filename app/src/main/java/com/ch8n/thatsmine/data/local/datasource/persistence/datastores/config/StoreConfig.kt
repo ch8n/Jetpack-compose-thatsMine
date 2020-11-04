@@ -8,6 +8,11 @@ import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
 
 
+/***
+ * Do not instrument AndroidX DataStore
+ * Reason : https://github.com/robolectric/robolectric/pull/5987
+ */
+
 // file names for dataStores
 const val PREF_RESTORE_FILE_NAME = "RestoreFormStore"
 const val PROTO_OWNED_ITEM_FILE_NAME = "ownedItem.pb"
