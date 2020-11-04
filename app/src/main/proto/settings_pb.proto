@@ -5,10 +5,11 @@ option java_multiple_files = true;
 
 message ProtoSettings {
 
-  message ProtoCurrentUser{
+  message ActiveUser{
     string userId = 1;
-    string name = 2;
-    string email = 3;
+    string userName = 2;
+    string fullName = 3;
+    string email = 4;
   }
 
   enum Theme {
@@ -19,7 +20,7 @@ message ProtoSettings {
   bool notification_enabled = 1;
   bool loggedIn = 2;
   bool guestMode = 3;
-  ProtoCurrentUser currentUser = 4;
+  ActiveUser activeUser = 4;
   Theme currentTheme = 5;
 
 }
