@@ -7,7 +7,6 @@ import androidx.datastore.createDataStore
 import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.preferencesKey
-import com.ch8n.thatsmine.OwnedItems
 import com.ch8n.thatsmine.ProtoOwnedItems
 import com.ch8n.thatsmine.ProtoSettings
 import com.ch8n.thatsmine.data.local.datasource.persistence.prefs.config.protos.SerializersOwnedItem
