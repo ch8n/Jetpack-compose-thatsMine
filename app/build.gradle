@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.protobuf' // adding support for protobuf
 }
 
 android {
@@ -46,7 +47,40 @@ android {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion '1.4.10'
     }
+
 }
+
+// adding support for protobuf
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.6.1'
+    }
+    plugins {
+        javalite {
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.plugins {
+                javalite {}
+            }
+        }
+    }
+}
+
+sourceSets {
+    main.java.srcDirs += "${protobuf.generatedFilesBaseDir}/main/javalite"
+    main.java.srcDirs += "$projectDir/src/main/proto"
+}
+
+processResources {
+    exclude('**/*.proto')
+}
+
 
 dependencies {
 
@@ -64,7 +98,12 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0'
 
+
+    //protobuf
+    implementation 'com.google.protobuf:protobuf-lite:3.0.1'
+
     // datastore
+    implementation "androidx.datastore:datastore-core:1.0.0-alpha01" //protobuf datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
 
     // logging

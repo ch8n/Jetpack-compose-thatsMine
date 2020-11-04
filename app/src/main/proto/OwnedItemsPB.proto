@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_package = "com.ch8n.thatsmine";
+option java_multiple_files = true;
+
+message ProtoOwnedItem {
+
+  enum Origin {
+    Gifted = 0;
+    Purchased = 1;
+  }
+
+  string itemId = 1;
+  string itemName = 2;
+  string itemDescription = 3;
+  int64 ownedAt = 4; // long
+  int32 inventory = 5; // Int
+  int64 expiresIn = 6; // long
+  string imageUrl = 7;
+  string originName = 8;
+  Origin origin = 9;
+  bool isFavourite = 10;
+}
+
+message ProtoOwnedItems {
+  ProtoOwnedItem lastViewItem = 1;
+  repeated ProtoOwnedItem lastItems = 2; // repeated => list
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_package = "com.ch8n.thatsmine";
+option java_multiple_files = true;
+
+message ProtoSettings {
+
+  message ProtoCurrentUser{
+    string userId = 1;
+    string name = 2;
+    string email = 3;
+  }
+
+  enum Theme {
+    Light = 0;
+    Dark = 1;
+  }
+
+  bool notification_enabled = 1;
+  bool loggedIn = 2;
+  bool guestMode = 3;
+  ProtoCurrentUser currentUser = 4;
+  Theme currentTheme = 5;
+
+}
