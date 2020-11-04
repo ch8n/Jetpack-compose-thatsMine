@@ -1,11 +1,10 @@
-package com.ch8n.thatsmine.data.local.datasource.persistence.prefs.config.protos
+package com.ch8n.thatsmine.data.local.datasource.persistence.datastores.proto
 
 import androidx.datastore.CorruptionException
 import androidx.datastore.Serializer
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
 import com.ch8n.thatsmine.ProtoOwnedItems
 import com.ch8n.thatsmine.ProtoSettings
-import com.ch8n.thatsmine.Settings.CurrentUser.parseFrom
 import java.io.InputStream
 import java.io.OutputStream
 
