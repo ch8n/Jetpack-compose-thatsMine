@@ -11,6 +11,7 @@ import androidx.datastore.preferences.createDataStore
 /***
  * Do not instrument AndroidX DataStore
  * Reason : https://github.com/robolectric/robolectric/pull/5987
+ * [edit 1 - 5/nov/2020]: can be tested on Roboelectric-4.5-alpha-2
  */
 
 // file names for dataStores
@@ -34,7 +35,7 @@ abstract class ProtoDataStore<T>(context: Context, config: StoreConfig<T>) {
 
 // Skeletal classes for Preference-DataStore
 abstract class PrefsDataStore(context: Context, fileName: String) {
-    protected val dataStore: DataStore<Preferences> = context.createDataStore(
+    internal val dataStore: DataStore<Preferences> = context.createDataStore(
         name = fileName
     )
 }

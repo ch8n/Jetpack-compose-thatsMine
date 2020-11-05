@@ -1,7 +1,6 @@
 package com.ch8n.thatsmine.data.local.datasource.persistence.datastores.prefs
 
 import android.content.Context
-import androidx.compose.runtime.produceState
 import androidx.datastore.preferences.clear
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
@@ -19,14 +18,23 @@ import timber.log.Timber
 
 interface RestoreFormStore {
     fun clear(): Flow<Boolean>
-    var itemName: Flow<String>
-    var itemDescription: Flow<String>
-    var originName: Flow<String>
-    var ownedAt: Flow<Long>
-    var expiresIn: Flow<Long>
-    var origin: Flow<Origin>
-    var inventory: Flow<Int>
-    var isFavourite: Flow<Boolean>
+    val itemName: Flow<String>
+    val itemDescription: Flow<String>
+    val originName: Flow<String>
+    val ownedAt: Flow<Long>
+    val expiresIn: Flow<Long>
+    val origin: Flow<Origin>
+    val inventory: Flow<Int>
+    val isFavourite: Flow<Boolean>
+
+    fun setItemName(itemName: String): Flow<Boolean>
+    fun setItemDescription(itemDescription: String): Flow<Boolean>
+    fun setOriginName(originName: String): Flow<Boolean>
+    fun setOwnedAt(ownedAt: Long): Flow<Boolean>
+    fun setExpiresIn(expiresIn: Long): Flow<Boolean>
+    fun setOrigin(origin: Origin): Flow<Boolean>
+    fun setInventory(inventory: Int): Flow<Boolean>
+    fun setFavourite(isFavourite: Boolean): Flow<Boolean>
 }
 
 
@@ -58,48 +66,29 @@ class RestoreFormDataStoreImpl(
         }
     }
 
-    override var itemName: Flow<String>
+
+
+    override val itemName: Flow<String>
         get() = dataStore.getValue(ITEM_NAME, "")
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(ITEM_NAME, input)
-            }
-        }
 
-    override var itemDescription: Flow<String>
+
+    override val itemDescription: Flow<String>
         get() = dataStore.getValue(ITEM_DESC, "")
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(ITEM_DESC, input)
-            }
-        }
 
-    override var originName: Flow<String>
+
+    override val originName: Flow<String>
         get() = dataStore.getValue(ORIGIN_NAME, "")
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(ORIGIN_NAME, input)
-            }
-        }
 
 
-    override var ownedAt: Flow<Long>
+    override val ownedAt: Flow<Long>
         get() = dataStore.getValue(OWNED_TIME, 0)
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(OWNED_TIME, input)
-            }
-        }
 
-    override var expiresIn: Flow<Long>
+
+    override val expiresIn: Flow<Long>
         get() = dataStore.getValue(EXPIRE_TIME, 0)
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(EXPIRE_TIME, input)
-            }
-        }
 
-    override var origin: Flow<Origin>
+
+    override val origin: Flow<Origin>
         get() = dataStore.getValue(ORIGIN_TYPE, -1).map {
             when (it) {
                 0 -> Origin.PURCHASED
@@ -107,32 +96,100 @@ class RestoreFormDataStoreImpl(
                 else -> Origin.UNDEFINED
             }
         }
-        set(value) {
-            value.map { input ->
-                val perfOrigin = when (input) {
-                    Origin.UNDEFINED -> -1
-                    Origin.GIFTED -> 1
-                    Origin.PURCHASED -> 0
-                }
-                dataStore.setValue(ORIGIN_TYPE, perfOrigin)
-            }
-        }
 
-    override var inventory: Flow<Int>
+
+    override val inventory: Flow<Int>
         get() = dataStore.getValue(INVENTORY, 0)
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(INVENTORY, input)
-            }
-        }
 
-    override var isFavourite: Flow<Boolean>
+
+    override val isFavourite: Flow<Boolean>
         get() = dataStore.getValue(IS_FAVOURITE, false)
-        set(value) {
-            value.map { input ->
-                dataStore.setValue(IS_FAVOURITE, input)
-            }
+
+
+    override fun setItemName(itemName: String): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(ITEM_NAME, itemName)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
         }
+    }
+
+    override fun setItemDescription(itemDescription: String): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(ITEM_DESC, itemDescription)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setOriginName(originName: String): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(ORIGIN_NAME, originName)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setOwnedAt(ownedAt: Long): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(OWNED_TIME, ownedAt)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setExpiresIn(expiresIn: Long): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(EXPIRE_TIME, expiresIn)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setOrigin(origin: Origin): Flow<Boolean> {
+        return flow<Boolean> {
+            val perfOrigin = when (origin) {
+                Origin.UNDEFINED -> -1
+                Origin.GIFTED -> 1
+                Origin.PURCHASED -> 0
+            }
+            dataStore.setValue(ORIGIN_TYPE, perfOrigin)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setInventory(inventory: Int): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(INVENTORY, inventory)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setFavourite(isFavourite: Boolean): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.setValue(IS_FAVOURITE, isFavourite)
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
 }
 
 

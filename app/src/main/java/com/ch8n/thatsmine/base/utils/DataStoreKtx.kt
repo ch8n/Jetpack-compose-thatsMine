@@ -21,6 +21,7 @@ fun <T> DataStore<Preferences>.getValue(
                 throw exception
             }
         }.map { preferences ->
+            println("getting value")
             preferences[key] ?: defaultValue
         }
 }
@@ -29,4 +30,5 @@ suspend fun <T> DataStore<Preferences>.setValue(key: Preferences.Key<T>, value: 
     edit { preferences ->
         preferences[key] = value
     }
+    println("value updated")
 }
