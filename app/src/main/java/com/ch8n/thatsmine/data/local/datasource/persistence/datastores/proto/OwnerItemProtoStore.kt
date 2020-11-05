@@ -8,12 +8,17 @@ import com.ch8n.thatsmine.data.local.datasource.persistence.datastores.config.Pr
 import com.ch8n.thatsmine.data.local.datasource.persistence.datastores.config.StoreConfig
 import com.ch8n.thatsmine.domain.models.Origin
 import com.ch8n.thatsmine.domain.models.OwnerItem
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
+import java.util.*
 
 interface OwnedItemProtoStore {
-    var lastViewedItem: Flow<OwnerItem>
-    var bufferItems: Flow<List<OwnerItem>>
+    val lastViewedItem: Flow<OwnerItem>
+    val bufferItems: Flow<List<OwnerItem>>
+
+    fun clear(): Flow<Boolean>
+    fun setLastViewedItem(lastViewedItem: OwnerItem): Flow<Boolean>
+    fun setBufferList(bufferItems: List<OwnerItem>): Flow<Boolean>
 }
 
 class OwnedItemProtoStoreImpl(
@@ -37,6 +42,7 @@ class OwnedItemProtoStoreImpl(
                 ProtoOwnedItem.Origin.Gifted -> Origin.GIFTED
                 ProtoOwnedItem.Origin.Purchased -> Origin.PURCHASED
                 ProtoOwnedItem.Origin.UNRECOGNIZED -> Origin.UNDEFINED
+                ProtoOwnedItem.Origin.Unknown -> Origin.UNDEFINED
             },
             originName = this.originName,
             isFavourite = this.isFavourite
@@ -51,10 +57,10 @@ class OwnedItemProtoStoreImpl(
             .setOwnedAt(this.ownedAt)
             .setInventory(this.inventory)
             .setExpiresIn(this.expiresIn)
-            .setImageUrl(this.itemId)
+            .setImageUrl(this.imageUrl)
             .setOrigin(
                 when (this.origin) {
-                    Origin.UNDEFINED -> ProtoOwnedItem.Origin.UNRECOGNIZED
+                    Origin.UNDEFINED -> ProtoOwnedItem.Origin.Unknown
                     Origin.GIFTED -> ProtoOwnedItem.Origin.Gifted
                     Origin.PURCHASED -> ProtoOwnedItem.Origin.Purchased
                 }
@@ -64,32 +70,65 @@ class OwnedItemProtoStoreImpl(
             .build()
     }
 
-    override var lastViewedItem: Flow<OwnerItem>
+    override val lastViewedItem: Flow<OwnerItem>
         get() = dataStore.data.map { store ->
-            store.lastViewItem.toOwnerItems()
-        }
-        set(value) {
-            value.map { item ->
-                dataStore.updateData { store ->
-                    val storeItem = item.toProtoOwnedItem()
-                    store.toBuilder().setLastViewItem(storeItem).build()
-                }
+            val item = store.lastViewItem.toOwnerItems()
+            if (item.itemId.isEmpty()) {
+                item.copy(itemId = UUID.randomUUID().toString())
+            } else {
+                item
             }
         }
 
-    override var bufferItems: Flow<List<OwnerItem>>
+
+    override val bufferItems: Flow<List<OwnerItem>>
         get() = dataStore.data.map { store ->
             store.offlineBufferItemList.map { it.toOwnerItems() }
         }
-        set(value) {
-            value.map { item ->
-                item.map { it.toProtoOwnedItem() }
-                    .forEachIndexed { index, protoOwnedItem ->
-                        dataStore.updateData { store ->
-                            store.toBuilder().setOfflineBufferItem(index, protoOwnedItem).build()
-                        }
-                    }
+
+
+    override fun clear(): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.updateData { store ->
+                store.toBuilder().clear().build()
             }
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
         }
+    }
+
+    override fun setLastViewedItem(lastViewedItem: OwnerItem): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.updateData { store ->
+                val storeItem = lastViewedItem.toProtoOwnedItem()
+                store.toBuilder()
+                    .clearLastViewItem()
+                    .setLastViewItem(storeItem)
+                    .build()
+            }
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
+
+    override fun setBufferList(bufferItems: List<OwnerItem>): Flow<Boolean> {
+        return flow<Boolean> {
+            dataStore.updateData { store ->
+                val storeItem = bufferItems.map { it.toProtoOwnedItem() }
+                store.toBuilder()
+                    .clearOfflineBufferItem()
+                    .addAllOfflineBufferItem(storeItem)
+                    .build()
+            }
+            emit(true)
+        }.catch { error ->
+            Timber.e(error)
+            emit(false)
+        }
+    }
 }
 

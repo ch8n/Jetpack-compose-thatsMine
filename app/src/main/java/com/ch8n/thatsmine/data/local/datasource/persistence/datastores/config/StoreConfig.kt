@@ -27,7 +27,7 @@ data class StoreConfig<T>(
 
 // Skeletal classes for Proto-DataStore
 abstract class ProtoDataStore<T>(context: Context, config: StoreConfig<T>) {
-    protected val dataStore: DataStore<T> = context.createDataStore(
+    internal val dataStore: DataStore<T> = context.createDataStore(
         fileName = config.fileName,
         serializer = config.serializer
     )
