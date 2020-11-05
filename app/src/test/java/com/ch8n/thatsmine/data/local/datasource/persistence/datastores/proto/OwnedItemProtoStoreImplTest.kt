@@ -93,5 +93,60 @@ class OwnedItemProtoStoreImplTest {
         Truth.assertThat(value).isEmpty()
     }
 
+    @Test
+    fun `on buffer owned item list always change on update not returns the old one`() = runBlocking {
+        val value1 = itemStored.bufferItems.first()
+        Truth.assertThat(value1).isEmpty()
+
+        val mockItems2 = listOf(OwnerItem.mock(),OwnerItem.mock(),OwnerItem.mock())
+        val isSuccess2 = itemStored.setBufferList(mockItems2).first()
+        val value2 = itemStored.bufferItems.first()
+        Truth.assertThat(isSuccess2).isTrue()
+        Truth.assertThat(value2).hasSize(3)
+        Truth.assertThat(value2.get(0)).isEqualTo(mockItems2.get(0))
+        Truth.assertThat(value2.get(1)).isEqualTo(mockItems2.get(1))
+        Truth.assertThat(value2.get(2)).isEqualTo(mockItems2.get(2))
+
+        val mockItems3 = listOf(OwnerItem.mock(),OwnerItem.mock(),OwnerItem.mock())
+        val isSuccess3 = itemStored.setBufferList(mockItems3).first()
+        val value3 = itemStored.bufferItems.first()
+        Truth.assertThat(isSuccess3).isTrue()
+        Truth.assertThat(value3).hasSize(3)
+        Truth.assertThat(value3.get(0)).isEqualTo(mockItems3.get(0))
+        Truth.assertThat(value3.get(1)).isEqualTo(mockItems3.get(1))
+        Truth.assertThat(value3.get(2)).isEqualTo(mockItems3.get(2))
+
+    }
+
+    @Test
+    fun `on clear data reset to empty objects`() = runBlocking {
+
+        val mockLastItem = OwnerItem.mock()
+        val isSuccessLastItem = itemStored.setLastViewedItem(mockLastItem).first()
+
+        val mockBufferItems = listOf(OwnerItem.mock(),OwnerItem.mock(),OwnerItem.mock())
+        val isSuccessBufferList = itemStored.setBufferList(mockBufferItems).first()
+
+        Truth.assertThat(isSuccessLastItem).isTrue()
+        Truth.assertThat(isSuccessBufferList).isTrue()
+
+        val isClearSuccess = itemStored.clear().first()
+        Truth.assertThat(isClearSuccess).isTrue()
+
+        val lastItem =  itemStored.lastViewedItem.first()
+        val bufferItem =  itemStored.bufferItems.first()
+
+        // assert empty last item
+        Truth.assertThat(lastItem.itemId).isNotEmpty()
+        Truth.assertThat(lastItem.itemDescription).isEmpty()
+        Truth.assertThat(lastItem.origin).isInstanceOf(Origin.UNDEFINED::class.java)
+        Truth.assertThat(lastItem.imageUrl).isEmpty()
+        Truth.assertThat(lastItem.ownedAt).isEqualTo(0)
+
+        // assert empty buffer list
+        Truth.assertThat(bufferItem).isEmpty()
+
+    }
+
 
 }
