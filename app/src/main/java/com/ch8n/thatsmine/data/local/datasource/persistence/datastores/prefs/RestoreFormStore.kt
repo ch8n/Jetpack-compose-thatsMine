@@ -44,7 +44,10 @@ class RestoreFormDataStoreImpl(
 ) : RestoreFormStore, PrefsDataStore(context.applicationContext, fileName) {
 
     companion object {
-        private val ITEM_NAME = preferencesKey<String>("ITEM_NAME")
+        private const val defaultString = ""
+        private const val defaultInt = 0
+        private const val defaultLong = defaultInt.toLong()
+        internal val ITEM_NAME = preferencesKey<String>("ITEM_NAME")
         private val ITEM_DESC = preferencesKey<String>("ITEM_DESC")
         private val ORIGIN_NAME = preferencesKey<String>("ORIGIN_NAME")
         private val ORIGIN_TYPE = preferencesKey<Int>("ORIGIN_TYPE")
@@ -67,29 +70,28 @@ class RestoreFormDataStoreImpl(
     }
 
 
-
     override val itemName: Flow<String>
-        get() = dataStore.getValue(ITEM_NAME, "")
+        get() = dataStore.getValue(ITEM_NAME, defaultString)
 
 
     override val itemDescription: Flow<String>
-        get() = dataStore.getValue(ITEM_DESC, "")
+        get() = dataStore.getValue(ITEM_DESC, defaultString)
 
 
     override val originName: Flow<String>
-        get() = dataStore.getValue(ORIGIN_NAME, "")
+        get() = dataStore.getValue(ORIGIN_NAME, defaultString)
 
 
     override val ownedAt: Flow<Long>
-        get() = dataStore.getValue(OWNED_TIME, 0)
+        get() = dataStore.getValue(OWNED_TIME, defaultLong)
 
 
     override val expiresIn: Flow<Long>
-        get() = dataStore.getValue(EXPIRE_TIME, 0)
+        get() = dataStore.getValue(EXPIRE_TIME, defaultLong)
 
 
     override val origin: Flow<Origin>
-        get() = dataStore.getValue(ORIGIN_TYPE, -1).map {
+        get() = dataStore.getValue(ORIGIN_TYPE, defaultInt).map {
             when (it) {
                 0 -> Origin.PURCHASED
                 1 -> Origin.GIFTED
@@ -99,7 +101,7 @@ class RestoreFormDataStoreImpl(
 
 
     override val inventory: Flow<Int>
-        get() = dataStore.getValue(INVENTORY, 0)
+        get() = dataStore.getValue(INVENTORY, defaultInt)
 
 
     override val isFavourite: Flow<Boolean>
