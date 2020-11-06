@@ -25,6 +25,9 @@ jobs:
       - name: Assesmble Debug Apk
         run: ./gradlew assembleDebug
 
+      - name: Running test
+        run: ./gradlew test
+
       - name: Uploading Test Reports
         if: ${{always()}}
         uses: actions/upload-artifact@v2
