@@ -10,7 +10,6 @@ import java.io.OutputStream
 
 object SerializersOwnedItem : Serializer<ProtoOwnedItems> {
     override fun readFrom(input: InputStream): ProtoOwnedItems {
-
         try {
             return ProtoOwnedItems.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
