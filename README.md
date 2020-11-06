@@ -21,6 +21,7 @@ Chao!
 3. Repository + UseCases
 4. [Flow API](https://github.com/MindorksOpenSource/Kotlin-Flow-Android-Examples)
 5. Unit Testing | [AndroidX test](http://robolectric.org/androidx_test/) | [Mocking](https://github.com/mockk/mockk) | TDD
+6. Github Action for CI
 
 
 ## :cop: License
