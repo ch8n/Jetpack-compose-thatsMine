@@ -34,12 +34,12 @@ jobs:
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
 
-      - name: Uploading Test Reports
-          if: ${{always()}}
-          uses: actions/upload-artifact@v2
-          with:
-            name: test-reports
-            path: '**/build/reports/tests'
+      - name: Upload Test Reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: '**/build/reports/tests/'
 
 
 
