@@ -22,14 +22,14 @@ jobs:
           java-version: 1.8
 
       - name: Speeding-up by Restoring Gradle Cache from Previous Builds
-          uses: actions/cache@v2
-          with:
-            path: |
-              ~/.gradle/caches
-              ~/.gradle/wrapper
-            key: ${{runner.os}}-gradle-${{hashFiles('**/*.gradle*')}}
-            restore-keys: |
-              ${{runner.os}}-gradle-
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{runner.os}}-gradle-${{hashFiles('**/*.gradle*')}}
+          restore-keys: |
+            ${{runner.os}}-gradle-
 
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
