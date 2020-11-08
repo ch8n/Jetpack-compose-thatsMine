@@ -1,3 +1,5 @@
+#Currently facing ISSUE => https://youtrack.jetbrains.com/issue/KT-41141?_ga=2.89368987.1245299421.1604734988-241319026.1601140535
+
 # Jetpack-compose-thatsMine
 App that use Modern Android Framework to Demonstrate an app which is responsible for keeping track of user owned items
 
