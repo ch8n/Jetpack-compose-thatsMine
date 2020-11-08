@@ -164,3 +164,14 @@ class GetGuestModeSettingStoreImpl(
         return settingStore.isGuest
     }
 }
+
+interface ClearSettingStore : BaseUseCase<Boolean>
+
+class ClearSettingStoreImpl(
+    private val settingStore: SettingProtoStore
+) : ClearSettingStore {
+
+    override fun execute(): Flow<Boolean> {
+        return settingStore.clear()
+    }
+}
