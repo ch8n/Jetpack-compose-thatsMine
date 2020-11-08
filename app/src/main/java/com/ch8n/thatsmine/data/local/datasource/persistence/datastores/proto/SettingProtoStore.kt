@@ -39,6 +39,7 @@ class SettingsProtoStoreImpl(
     config
 ) {
 
+
     private fun ProtoSettings.ActiveUser.toUser(): User {
         return User(
             userId = this.userId,

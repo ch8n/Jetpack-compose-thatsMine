@@ -86,4 +86,94 @@ class SettingsProtoStoreImplTest {
     }
 
 
+    @Test
+    fun `on update of enableNotification we get updated value`() = runBlocking {
+        val isSuccess = settingStore.setNotification(true).first()
+        val value = settingStore.enableNotification.first()
+        Truth.assertThat(isSuccess).isTrue()
+        Truth.assertThat(value).isTrue()
+    }
+
+    @Test
+    fun `on active enableNotification fails get empty object`() = runBlocking {
+        val value = settingStore.enableNotification.first()
+        Truth.assertThat(value).isFalse()
+    }
+
+    @Test
+    fun `on update of isLoggedIn we get updated value`() = runBlocking {
+        val isSuccess = settingStore.setLoggedIn(true).first()
+        val value = settingStore.isLoggedIn.first()
+        Truth.assertThat(isSuccess).isTrue()
+        Truth.assertThat(value).isTrue()
+    }
+
+    @Test
+    fun `on active isLoggedIn fails get empty object`() = runBlocking {
+        val value = settingStore.isLoggedIn.first()
+        Truth.assertThat(value).isFalse()
+    }
+
+    @Test
+    fun `on update of isGuest we get updated value`() = runBlocking {
+        val isSuccess = settingStore.setGuestMode(true).first()
+        val value = settingStore.isGuest.first()
+        Truth.assertThat(isSuccess).isTrue()
+        Truth.assertThat(value).isTrue()
+    }
+
+    @Test
+    fun `on active isGuest fails get empty object`() = runBlocking {
+        val value = settingStore.isGuest.first()
+        Truth.assertThat(value).isFalse()
+    }
+
+    @Test
+    fun `on clear data reset to empty objects`() = runBlocking {
+
+        val mockUser = User.mock()
+        val isSuccessTheme = settingStore.setCurrentTheme(AppTheme.Dark).first()
+        val isSuccessUser = settingStore.setActiveUser(mockUser).first()
+        val isSuccessNoti = settingStore.setNotification(true).first()
+        val isSuccessLogin = settingStore.setLoggedIn(true).first()
+        val isSuccessGuest = settingStore.setGuestMode(true).first()
+
+
+        Truth.assertThat(isSuccessTheme).isTrue()
+        Truth.assertThat(isSuccessUser).isTrue()
+        Truth.assertThat(isSuccessNoti).isTrue()
+        Truth.assertThat(isSuccessLogin).isTrue()
+        Truth.assertThat(isSuccessTheme).isTrue()
+        Truth.assertThat(isSuccessGuest).isTrue()
+
+        val isClearSuccess = settingStore.clear().first()
+        Truth.assertThat(isClearSuccess).isTrue()
+
+        settingStore.currentTheme.first().also {
+            Truth.assertThat(it).isInstanceOf(AppTheme.Light::class.java)
+        }
+
+        settingStore.activeUser.first().also {
+            Truth.assertThat(it.email).isEmpty()
+            Truth.assertThat(it.userName).isEmpty()
+            Truth.assertThat(it.userId).isEmpty()
+            Truth.assertThat(it.fullName).isEmpty()
+        }
+
+        settingStore.enableNotification.first().also {
+            Truth.assertThat(it).isFalse()
+        }
+
+        settingStore.isLoggedIn.first().also {
+            Truth.assertThat(it).isFalse()
+        }
+
+        settingStore.isGuest.first().also {
+            Truth.assertThat(it).isFalse()
+        }
+
+        Unit
+    }
+
+
 }
