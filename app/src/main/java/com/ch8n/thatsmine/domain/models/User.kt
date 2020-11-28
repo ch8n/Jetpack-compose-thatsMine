@@ -10,6 +10,7 @@ data class User(
     val email: String
 ) {
     companion object {
+
         fun default() = User(
             userId = "",
             userName = "",
