@@ -17,6 +17,7 @@ abstract class ComposeFragment : Fragment() {
         return this.Compose(requireContext())
     }
 
+
     abstract fun Compose(context: Context): ComposeView
 
 }

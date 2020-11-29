@@ -1,4 +1,4 @@
-package com.ch8n.thatsmine.base
+package com.ch8n.thatsmine.base.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
