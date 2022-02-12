@@ -1,4 +1,4 @@
-# Jetpack-compose-thatsMine
+# Jetpack-compose-thatsMine (WIP not yet ready)
 App that use Modern Android Framework to Demonstrate an app which is responsible for keeping track of user owned items
 
 ## :hand: About me
